@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db_auth:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3209938423
+      POSTGRES_DB: sendface_auth
+    ports:
+      - "5433:5432"
+
+  db_posts:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3209938423
+      POSTGRES_DB: sendface_posts
+    ports:
+      - "5434:5432"
+
+  auth-service:
+    build: ./api/api-auth-services
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db_auth
+    environment:
+      - DB_NAME=sendface_auth
+      - DB_USER=postgres
+      - DB_PASS=3209938423
+      - DB_HOST=db_auth
+      - DB_PORT=5432
+      - JWT_SECRET=clave_auth123
+
+  post-service:
+    build: ./api/api-post-services
+    restart: always
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db_posts
+    environment:
+      - DB_NAME=sendface_posts
+      - DB_USER=postgres
+      - DB_PASS=3209938423
+      - DB_HOST=db_posts
+      - DB_PORT=5432
+      - JWT_SECRET=clave_auth123
+  frontend:
+    build: ./frontend 
+    ports:
+      - "5173:5173"
+    depends_on:
+      - auth-service
+      - post-service

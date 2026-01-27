@@ -1,0 +1,17 @@
+
+node_modules/
+
+
+.env
+.env.local
+
+
+.docker/
+*.log
+
+
+dist/
+build/
+
+.DS_Store
+Thumbs.db
