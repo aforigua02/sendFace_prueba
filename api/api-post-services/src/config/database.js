@@ -6,8 +6,8 @@ const database = new Sequelize(
     process.env.DB_USER,
     process.env.DB_PASS,
     {
-        host: process.env.DB_HOST || 'sendface_posts',
-        port: 5433,
+        host: process.env.DB_HOST || 'db_posts',
+        port: 5432,
         dialect: 'postgres',
         logging: false,
     }
