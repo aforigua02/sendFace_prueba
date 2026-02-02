@@ -12,4 +12,5 @@ const Post = database.define("Post", {
     }
 });
 
+
 export default Post;

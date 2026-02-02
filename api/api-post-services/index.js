@@ -17,7 +17,6 @@ try {
         alter:true
     });
     await seedPosts();
-    app.use("/api/posts", ruta);
     const PORT = process.env.PORT || 3002;
     app.listen(PORT, () => {
         console.log(`Servicio post corriendo en el puerto http://localhost:3002`);
