@@ -47,6 +47,28 @@ function App() {
     return <Login />;
   }
 
+const handleUpdatePost = async (id, currentContent) => {
+  const postActualizar = prompt("Edita tu publicación:", currentContent);
+
+  if (!postActualizar || postActualizar === currentContent) return;
+
+  try {
+    await axios.put(`http://localhost:3002/api/posts/actualizar/${id}`, 
+      { content: postActualizar }, 
+      {
+        headers: {
+          'Authorization': `Bearer ${token}` //
+        }
+      }
+    );
+    fetchPosts(); 
+    alert("¡Post actualizado con éxito!");
+  } catch (err) {
+    console.error("Error al actualizar:", err.response?.data || err.message);
+    alert("No tienes permiso para editar este post o la sesión expiró.");
+  }
+};
+
   return (
     <div className="min-h-screen bg-gray-100 p-8 text-gray-900">
       <div className="max-w-2xl mx-auto">
@@ -95,6 +117,8 @@ function App() {
                     {new Date(post.createdAt).toLocaleDateString()}
                   </span>
                 </div>
+                <button onClick={() => handleUpdatePost(post.id, post.content)}
+                  className="mb-4 text-sm font-bold text-blue-500 hover:text-blue-700 transition-colors flex items-center gap-1">Editar</button>
               </div>
             ))
           ) : (
